@@ -1,0 +1,9 @@
+---
+clusterSpecific:
+  webuiClientRootUrl: ""
+  webuiRedirectUrls: ["", ""]
+  registryClientRootUrl: ""
+  telemetryClientRootUrl: ""
+  telemetryRedirectUrls: ["", ""]
+  clusterManagementClientRootUrl: ""
+  clusterManagementRedirectåUrls: [""]

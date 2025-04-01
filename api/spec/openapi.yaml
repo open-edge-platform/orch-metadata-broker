@@ -1,0 +1,122 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Metadata Broker API
+    description: Store to share Metadata across orch sub-systems
+    version: 0.0.1alpha
+paths:
+    /metadata.orchestrator.apis/v1/metadata:
+        get:
+            tags:
+                - MetadataService
+            description: GetMetadata retrieves the most recently udpates set.
+            operationId: MetadataService_GetMetadata
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MetadataResponse'
+        post:
+            tags:
+                - MetadataService
+            description: CreateOrUpdateMetadata creates or updates the specified metadata, returning the newly updates set.
+            operationId: MetadataService_CreateOrUpdateMetadata
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MetadataList'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MetadataResponse'
+        delete:
+            tags:
+                - MetadataService
+            description: Delete deletes the specified metadata, returning the newly updated set.
+            operationId: MetadataService_Delete
+            parameters:
+                - name: key
+                  in: query
+                  schema:
+                    type: string
+                - name: value
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MetadataResponse'
+    /metadata.orchestrator.apis/v1/project/{id}:
+        delete:
+            tags:
+                - MetadataService
+            operationId: MetadataService_DeleteProject
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+components:
+    schemas:
+        Metadata:
+            required:
+                - key
+                - value
+            type: object
+            properties:
+                key:
+                    type: string
+                value:
+                    type: string
+            description: Metadata represents a single value of metadata.
+        MetadataList:
+            required:
+                - metadata
+            type: object
+            properties:
+                metadata:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Metadata'
+        MetadataResponse:
+            required:
+                - metadata
+            type: object
+            properties:
+                metadata:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/StoredMetadata'
+        StoredMetadata:
+            required:
+                - key
+                - values
+            type: object
+            properties:
+                key:
+                    type: string
+                values:
+                    type: array
+                    items:
+                        type: string
+            description: StoredMetadata represents all stored metadata values for a given key.
+tags:
+    - name: MetadataService

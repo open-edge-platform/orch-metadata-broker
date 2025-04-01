@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: (C) 2023 Intel Corporation
+# SPDX-License-Identifier: LicenseRef-Intel
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mdb-service-account
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: mdb-nexus-permission
+  namespace: {{ .Release.Namespace }}
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["create","delete","get","list","watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: mdb-nexus-permission
+  namespace: {{ .Release.Namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: mdb-service-account
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: mdb-nexus-permission
+  apiGroup: rbac.authorization.k8s.io

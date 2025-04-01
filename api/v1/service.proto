@@ -1,0 +1,57 @@
+// SPDX-FileCopyrightText: (C) 2023 Intel Corporation
+// SPDX-License-Identifier: LicenseRef-Intel
+
+syntax = "proto3";
+
+package v1;
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "v1/metadata.proto";
+import "google/api/field_behavior.proto";
+
+service MetadataService {
+  // CreateOrUpdateMetadata creates or updates the specified metadata, returning the newly updates set.
+  rpc CreateOrUpdateMetadata(CreateOrUpdateRequest) returns (MetadataResponse) {
+    option (google.api.http) = {
+      post: "/metadata.orchestrator.apis/v1/metadata",
+      body: "body"
+    };
+  }
+
+  // Delete deletes the specified metadata, returning the newly updated set.
+  rpc Delete(v1.Metadata) returns (MetadataResponse) {
+    option (google.api.http) = {
+      delete: "/metadata.orchestrator.apis/v1/metadata"
+    };
+  }
+
+  // GetMetadata retrieves the most recently udpates set.
+  rpc GetMetadata(google.protobuf.Empty) returns (MetadataResponse) {
+    option (google.api.http) = {
+      get: "/metadata.orchestrator.apis/v1/metadata"
+    };
+  }
+
+  rpc DeleteProject(DeleteProjectRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/metadata.orchestrator.apis/v1/project/{id}"
+    };
+  }
+}
+
+message MetadataList {
+  repeated v1.Metadata metadata = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateOrUpdateRequest {
+  MetadataList body = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message MetadataResponse {
+  repeated v1.StoredMetadata metadata = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteProjectRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}

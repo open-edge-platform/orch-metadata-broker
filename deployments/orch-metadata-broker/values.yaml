@@ -1,0 +1,137 @@
+# Default values for orch-metadata-broker.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+global:
+  registry:
+    name: registry-rs.edgeorchestration.intel.com/edge-orch
+    imagePullSecrets: []
+
+image:
+  repository: orch-ui/metadata-broker
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: "0.2.0"
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+args:
+  restPort: 9988
+  grpcPort: 9987
+  backupFile: "/data/metadata.json"
+  backupFolder: "/data"
+
+persistence:
+  enabled: false
+  # leave empty to omit, so that the default storage class for the cluster will be used
+  storageClassName: ""
+
+logging:
+  encoders:
+    json:
+      fields:
+        - message
+        - level:
+            format: uppercase
+        - caller:
+            format: short
+        - timestamp:
+            format: iso8601
+
+  writers:
+    stdout:
+      encoder: json
+
+  rootLogger:
+    level: info
+    outputs:
+      - stdout
+
+openidc:
+  # the endpoint of a Keycloak Realm e.g. http://keycloak/realms/master
+  issuer: ""
+  # an external URL for the endpoint of a Keycloak Realm e.g.
+  # https://keycloak.<some-cluster>.<root url>.com/realms/master
+  external: ""
+  # allow the retrieval of JWKS to be performed against an HTTPS endpoint which
+  #  does not present a valid certificate
+  insecureSkipVerify: false
+  clients:
+    # Only gRPC clients should be listed here, and the gRPC client should
+    # identify itself in the gRPC request metadata with a client=<name>
+    # key-value pair REST clients should set the "User-Agent" header to be the
+    # client name (e.g. for webhook-monitor)
+    bypass:
+
+openpolicyagent:
+  image: openpolicyagent/opa
+  # -- tag is the name of the OPA image tag - must be -static to work on
+  # arm64 (e.g. M1 MacBook)
+  tag: 0.67.1-static
+  # --
+  enabled: true
+  port: 9986
+  loglevel: info
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: RuntimeDefault
+
+service:
+  grpc:
+    type: ClusterIP
+    port: 9987
+  rest:
+    type: ClusterIP
+    port: 9988
+
+licensing:
+  enabled: true
+
+# set resource limits of the container or set resources to {} to remove limits
+#resources: {}
+resources:
+  limits:
+    memory: "500M"
+    cpu: "1"
+  requests:
+    memory: "10M"
+    cpu: "50m"
+
+# set resource limits of the open policy agent container or set opaResources to {} to remove limits
+#opaResources: {}
+opaResources:
+  limits:
+    memory: "500M"
+    cpu: "1"
+  requests:
+    memory: "10M"
+    cpu: "50m"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

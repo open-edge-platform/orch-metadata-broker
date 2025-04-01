@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: (C) 2022 Intel Corporation
+# SPDX-License-Identifier: LicenseRef-Intel
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "orch-metadata-broker.fullname" . }}-logging
+  labels:
+    {{- include "orch-metadata-broker.labels" . | nindent 4 }}
+data:
+  logging.yaml: |-
+{{ toYaml .Values.logging | indent 4 }}

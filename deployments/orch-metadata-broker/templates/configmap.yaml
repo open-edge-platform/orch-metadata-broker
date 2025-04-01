@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: (C) 2022 Intel Corporation
+# SPDX-License-Identifier: LicenseRef-Intel
+
+{{ if .Values.openpolicyagent.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "orch-metadata-broker.fullname" . }}-opa-rego
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+{{ (.Files.Glob "files/openpolicyagent/*.rego").AsConfig | indent 2 }}
+{{- end}}

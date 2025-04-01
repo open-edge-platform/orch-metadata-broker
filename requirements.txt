@@ -1,0 +1,17 @@
+attrs==23.1.0
+certifi==2023.7.22
+charset-normalizer==3.1.0
+idna==3.4
+jsonschema==4.23.0
+jsonschema-spec==0.2.4
+lazy-object-proxy==1.9.0
+openapi-schema-validator==0.6.3
+openapi-spec-validator==0.7.1
+pathable==0.4.3
+pyrsistent==0.19.3
+PyYAML==6.0.1
+referencing==0.30.2
+requests==2.31.0
+rfc3339-validator==0.1.4
+six==1.16.0
+urllib3==2.0.3

@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: (C) 2024 Intel Corporation
+# SPDX-License-Identifier: LicenseRef-Intel
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-migration
+  namespace: orch-platform
+data:
+  MigrationProjectID: "your-project-id-here"

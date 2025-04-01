@@ -1,0 +1,164 @@
+{{- if .Values.persistence.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "orch-metadata-broker.fullname" . }}-claim
+spec:
+  {{- if .Values.persistence.storageClassName }}
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  {{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+{{ end }}
+---
+{{- $registry := .Values.global.registry -}}
+{{- if .Values.image.registry -}}
+{{- $registry = .Values.image.registry -}}
+{{- end -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "orch-metadata-broker.fullname" . }}
+  labels:
+    {{- include "orch-metadata-broker.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "orch-metadata-broker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/nginx-config: {{ include (print $.Template.BasePath "/logging-configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "orch-metadata-broker.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: mdb-service-account
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{- if hasKey $registry "name" }}{{ $registry.name }}/{{- end -}}{{ .Values.image.repository }}:{{ .Values.image.tag  | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "-restPort={{ .Values.args.restPort }}"
+            - "-grpcPort={{ .Values.args.grpcPort }}"
+            - "-opaPort={{ .Values.openpolicyagent.port }}"
+            - "-backupFile={{ .Values.args.backupFile }}"
+            - "-backupFolder={{ .Values.args.backupFolder }}"
+          ports:
+            - name: rest
+              containerPort: {{ .Values.service.rest.port }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.service.grpc.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: "/healthz"
+              port: rest
+          readinessProbe:
+            httpGet:
+              path: "/healthz"
+              port: rest
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: OIDC_SERVER_URL
+              value: {{ .Values.openidc.issuer }}
+            - name: OIDC_SERVER_URL_EXTERNAL
+              value: {{ .Values.openidc.external }}
+            - name: OIDC_TLS_INSECURE_SKIP_VERIFY
+              value: {{ .Values.openidc.insecureSkipVerify | quote }}
+            {{- if (lookup "v1" "ConfigMap" .Release.Namespace "tenant-migration") }}
+            - name: MIGRATION_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: tenant-migration
+                  key: MigrationProjectID
+            {{- end}}
+          volumeMounts:
+            - mountPath: /data
+              name: metadata-data
+            - name: config
+              mountPath: /etc/dazl
+        {{ if .Values.openpolicyagent.enabled }}
+        - name: openpolicyagent
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- with .Values.openpolicyagent }}
+          image: "{{- if .registry -}}{{ .registry }}/{{- end -}}{{ .image }}:{{ .tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: opa
+              containerPort: {{ .Values.openpolicyagent.port }}
+              protocol: TCP
+          args:
+            - "run"
+            - "--server"
+            - "/etc/opa/rego"
+            - "--addr"
+            - ":{{ .Values.openpolicyagent.port }}"
+            - "--log-level"
+            - {{ .Values.openpolicyagent.loglevel }}
+          livenessProbe:
+            httpGet:
+              path: /health?bundle=true  # Include bundle activation in readiness
+              scheme: HTTP
+              port: {{ .Values.openpolicyagent.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health?bundle=true  # Include bundle activation in readiness
+              scheme: HTTP
+              port: {{ .Values.openpolicyagent.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.opaResources | nindent 12 }}
+          volumeMounts:
+            - name: openpolicyagent
+              mountPath: /etc/opa/rego
+              readOnly: true
+        {{end}}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "orch-metadata-broker.fullname" . }}-logging
+        {{- if not .Values.persistence.enabled }}
+        - name: metadata-data
+          emptyDir: { }
+        {{- else }}
+        - name: metadata-data
+          persistentVolumeClaim:
+            claimName: {{ include "orch-metadata-broker.fullname" . }}-claim
+        {{- end }}
+        {{- if .Values.openpolicyagent.enabled }}
+        - name: openpolicyagent
+          configMap:
+            name: {{ include "orch-metadata-broker.fullname" . }}-opa-rego
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

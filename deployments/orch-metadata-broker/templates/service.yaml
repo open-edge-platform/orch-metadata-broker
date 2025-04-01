@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orch-metadata-broker.fullname" . }}-rest
+  labels:
+    {{- include "orch-metadata-broker.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.rest.type }}
+  ports:
+    - port: {{ .Values.service.rest.port }}
+      targetPort: rest
+      protocol: TCP
+      name: rest
+  selector:
+    {{- include "orch-metadata-broker.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "orch-metadata-broker.fullname" . }}-grpc
+  labels:
+    {{- include "orch-metadata-broker.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.rest.type }}
+  ports:
+    - port: {{ .Values.service.grpc.port }}
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    {{- include "orch-metadata-broker.selectorLabels" . | nindent 4 }}
