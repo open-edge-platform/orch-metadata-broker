@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: (C) 2025 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
 BINARY_NAME=metadata-service
 BIN_DIR=bin
 OAPI_CODEGEN_VERSION		?= v1.12.0
@@ -56,6 +59,11 @@ $(VENV_NAME): requirements.txt
 	  python3 -m pip install --upgrade pip;\
 	  python3 -m pip install -r requirements.txt
 	echo "To enter virtualenv, run 'source $@/bin/activate'"
+
+license: $(VENV_NAME) ## Check licensing with the reuse tool
+	. ./$</bin/activate ; set -u ;\
+	reuse --version ;\
+	reuse --root . lint
 
 proto-generate: buf-generate openapi-spec-validate
 	@# Help: Generate Openapi and validate it

@@ -1,0 +1,5 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+
+Files: *.md **/*.md *.ico .dockerignore .trivyignore VERSION **/Chart.lock CONTRIBUTING.md LICENSE .gitmodules .gitignore **/.gitignore buf.lock **/buf.lock go.mod go.sum requirements.txt
+Copyright: (C) 2025 Intel Corporation
+License: Apache-2.0

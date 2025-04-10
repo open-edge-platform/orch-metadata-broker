@@ -1,4 +1,9 @@
 {{/*
+# SPDX-FileCopyrightText: (C) 2025 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+*/}}
+
+{{/*
 Expand the name of the chart.
 */}}
 {{- define "orch-metadata-broker.name" -}}

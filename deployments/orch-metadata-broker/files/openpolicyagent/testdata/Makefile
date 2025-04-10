@@ -1,6 +1,5 @@
-# SPDX-FileCopyrightText: 2023-present Intel Corporation
-#
-# SPDX-License-Identifier: LicenseRef-Intel
+# SPDX-FileCopyrightText: (C) 2025 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
 
 OPA          ?= opa
 BUNDLE       ?= ../..
