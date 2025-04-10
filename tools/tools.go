@@ -1,7 +1,9 @@
-// SPDX-FileCopyrightText: (C) 2022 Intel Corporation
-// SPDX-License-Identifier: LicenseRef-Intel
-
 //go:build tools
+
+/*
+* SPDX-FileCopyrightText: (C) 2023 Intel Corporation
+* SPDX-License-Identifier: Apache-2.0
+ */
 
 // Purpose: This file ensures that dependent Go command-line tools are installed.
 //

@@ -1,6 +1,7 @@
-// SPDX-FileCopyrightText: 2023-present Intel Corporation
-//
-// SPDX-License-Identifier: LicenseRef-Intel
+/*
+* SPDX-FileCopyrightText: (C) 2023 Intel Corporation
+* SPDX-License-Identifier: Apache-2.0
+ */
 
 package grpc
 
