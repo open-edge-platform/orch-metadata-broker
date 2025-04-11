@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: (C) 2025 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
+SHELL := bash -eu -o pipefail
+
 BINARY_NAME=metadata-service
 BIN_DIR=bin
 OAPI_CODEGEN_VERSION		?= v1.12.0
@@ -128,6 +130,14 @@ docker-push:
 	docker push $(DOCKER_TAG)
 	docker push $(DOCKER_TAG_BRANCH)
 
+docker-list: ## Print name of docker container image
+	@echo "images:"
+	@echo "  $(DOCKER_IMG_NAME):"
+	@echo "    name: '$(DOCKER_TAG)'"
+	@echo "    version: '$(VERSION)'"
+	@echo "    gitTagPrefix: 'v'"
+	@echo "    buildTarget: 'docker-build'"
+
 chart-clean:
 	@# Help: Cleans the build directory of the helm chart
 	rm -rf ${CHART_BUILD_DIR}
@@ -140,6 +150,13 @@ helm-build: chart-clean apply-version
 		--dependency-update \
 		--destination ${CHART_BUILD_DIR} \
 		${CHART_PATH}
+
+helm-list: ## List helm charts, tag format, and versions in YAML format
+	@echo "charts:" ;\
+  echo "  $(CHART_NAME):" ;\
+  echo -n "    "; grep "^version" "${CHART_PATH}/Chart.yaml"  ;\
+  echo "    gitTagPrefix: 'v'" ;\
+  echo "    outDir: '${CHART_BUILD_DIR}'" ;\
 
 kind-load:
 	@# Help: Load various images into the kind cluster
