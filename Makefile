@@ -132,7 +132,7 @@ chart-clean:
 	@# Help: Cleans the build directory of the helm chart
 	rm -rf ${CHART_BUILD_DIR}
 
-helm-build: chart-clean
+helm-build: chart-clean apply-version
 	@# Help: Builds the helm chart
 	helm package \
 		--app-version=${CHART_APP_VERSION} \
