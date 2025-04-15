@@ -16,8 +16,8 @@ To develop in the Metadata Broker Service, the following development prerequisit
 
 - Go (1.23.8 or later)
 - Python with venv (3.1.0 or later)
-- [Make] (https://www.gnu.org/software/make)
-- [Buf] (https://github.com/bufbuild/buf)
+- [Make](https://www.gnu.org/software/make)
+- [Buf](https://github.com/bufbuild/buf)
 - A running deployment of the [Edge Management Framework](https://github.com/open-edge-platform/edge-manageability-framework?tab=readme-ov-file)
 
 To build and test Metadata Broker, you can use the following commands:
@@ -28,10 +28,10 @@ make build
 # Run the project locally
 make run
 
-# If working in a containerezied setup, you can use this to build a docker image
+# If working in a containerized setup, you can use this to build a docker image
 make docker-build
 
-# Push the image to a public Amazon ECR registry.
+# Push the image to a public Amazon ECR registry
 make docker-push
 ```
 
@@ -80,7 +80,7 @@ Delete a project:
 ```shell
 curl -X DELETE http://localhost:9988/metadata.orchestrator.apis/v1/project/$PRJ
 ```
-> Note: This will only delete the project from the Metadata Broker service's file storage. The actual project will still exist in the EMF system.
+> Note: This will only delete the project from the Metadata Broker service's file storage. The actual project will still exist in the [Edge Management Framework](https://github.com/open-edge-platform/edge-manageability-framework?tab=readme-ov-file) system.
 
 ## Contribute
 
