@@ -119,16 +119,17 @@ vendor:
 
 docker-build: vendor generate
 	docker build -f build/Dockerfile \
-	-t $(DOCKER_IMG_NAME):$(GIT_BRANCH) \
+	-t $(DOCKER_TAG) \
 	--platform linux/amd64 .
 
 docker-push:
 	@# Help: Pushes the docker image
 	aws ecr create-repository --region us-west-2 --repository-name  $(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME) || true
-	docker tag $(DOCKER_IMG_NAME):$(GIT_BRANCH) $(DOCKER_TAG_BRANCH)
-	docker tag $(DOCKER_IMG_NAME):$(GIT_BRANCH) $(DOCKER_TAG)
 	docker push $(DOCKER_TAG)
-	docker push $(DOCKER_TAG_BRANCH)
+	if [ -n "${GIT_BRANCH}" ]; then \
+		docker tag $(DOCKER_TAG) $(DOCKER_TAG_BRANCH) ;\
+		docker push $(DOCKER_TAG_BRANCH) ;\
+	fi
 
 docker-list: ## Print name of docker container image
 	@echo "images:"
