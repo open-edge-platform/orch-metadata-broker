@@ -42,7 +42,7 @@ There are some additional `make` targets to support developer activities:
 - `mod-update` - runs both `mod tidy` and `mod vendor`
 - `lint` - runs linting on the code
 
-Since all metadata is tied to a project, let's create a project first:
+Since all metadata is tied to a project, let's select a project first:
 
 ```shell
 export PRJ=testProject
@@ -75,7 +75,7 @@ Delete a specific key/value pair:
 curl -X DELETE -H "ActiveProjectID: $PRJ" http://localhost:9988/metadata.orchestrator.apis/v1/metadata?key=color&value=red
 ```
 
-Delete a project:
+Delete all metadata in a project:
 
 ```shell
 curl -X DELETE http://localhost:9988/metadata.orchestrator.apis/v1/project/$PRJ
