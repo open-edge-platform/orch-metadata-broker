@@ -4,9 +4,6 @@
 
 This service is responsible for storing and retrieving metadata, enabling the UI to populate dropdowns with previously entered metadata keys and values. The metadata is stored in a separate file for each project in favor of security.
 
-Finish the section by sending them to a relevant section of the
-documentation:
-
 Read more about Metadata Broker [here](https://github.com/open-edge-platform/orch-metadata-broker/blob/main/docs/metadata-broker.md).
 
 ## Get Started
@@ -19,7 +16,7 @@ To develop in the Metadata Broker Service, the following development prerequisit
 
 - Go (1.23.8 or later)
 - Python (3.1.0 or later)
-- Make
+- [Make] (https://www.gnu.org/software/make)
 - [Buf] (https://github.com/bufbuild/buf)
 - A running deployment of the [Edge Management Framework](https://github.com/open-edge-platform/edge-manageability-framework?tab=readme-ov-file)
 
@@ -35,15 +32,54 @@ make build
 make run
 ```
 
+Since all metadata is tied to a project, let's create a project first:
+
+```shell
+export PRJ=testProject
+```
+
+Now, create a metadata key/value pair:
+
+```shell
+curl -X POST -H "ActiveProjectID: $PRJ" 
+http://localhost:9988/metadata.orchestrator.apis/v1/metadata -d 
+'{
+  "metadata": [
+    {"key": "color", "value": "red"},
+    {"key": "color", "value": "blue"}
+]}'
+```
+
+Get all metadata for a project:
+
+```shell
+curl -X GET -H "ActiveProjectID: $PRJ" http://localhost:9988/metadata.orchestrator.apis/v1/metadata
+```
+
+Delete a specific key/value pair:
+
+```shell
+curl -X DELETE -H "ActiveProjectID: $PRJ" http://localhost:9988/metadata.orchestrator.apis/v1/metadata?key=color&value=red
+```
+
+Delete a project:
+
+```shell
+curl -X DELETE http://localhost:9988/metadata.orchestrator.apis/v1/project/$PRJ
+```
+> Note: This will only delete the project from the Metadata Broker service's file storage. The actual project will still exist in the EMF system.
+
+
+
 ## Contribute
 
 To learn how to contribute to the project, see the [Contributor's
-Guide](https://docs.openedgeplatform.intel.com/edge-manage-docs/main/developer_guide/contributor_guide/index.html). The project will accept contributions through Pull-Requests (PRs). PRs must be built successfully by the CI pipeline, pass linters verifications and the unit tests.
+Guide](https://docs.openedgeplatform.intel.com/edge-manage-docs/main/developer_guide/contributor_guide/index.html). The project will accept contributions through Pull-Requests (PRs). PRs must be built successfully by the CI pipeline, pass linter verifications and unit tests.
 
 ## Community and Support
 
 To learn more about the project, its community, and governance, visit
-the \[Edge Orchestrator Community\](https://website-name.com).
+the [Edge Orchestrator Community](https://github.com/open-edge-platform).
 
 For support, start with [Troubleshooting](https://docs.openedgeplatform.intel.com/edge-manage-docs/main/developer_guide/troubleshooting/index.html).
 
