@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: (C) 2025 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+SHELL := bash -eu -o pipefail
+
 BINARY_NAME=metadata-service
 BIN_DIR=bin
 OAPI_CODEGEN_VERSION		?= v1.12.0
@@ -57,6 +62,11 @@ $(VENV_NAME): requirements.txt
 	  python3 -m pip install -r requirements.txt
 	echo "To enter virtualenv, run 'source $@/bin/activate'"
 
+license: $(VENV_NAME) ## Check licensing with the reuse tool
+	. ./$</bin/activate ; set -u ;\
+	reuse --version ;\
+	reuse --root . lint
+
 proto-generate: buf-generate openapi-spec-validate
 	@# Help: Generate Openapi and validate it
 
@@ -109,22 +119,31 @@ vendor:
 
 docker-build: vendor generate
 	docker build -f build/Dockerfile \
-	-t $(DOCKER_IMG_NAME):$(GIT_BRANCH) \
+	-t $(DOCKER_TAG) \
 	--platform linux/amd64 .
 
 docker-push:
 	@# Help: Pushes the docker image
 	aws ecr create-repository --region us-west-2 --repository-name  $(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME) || true
-	docker tag $(DOCKER_IMG_NAME):$(GIT_BRANCH) $(DOCKER_TAG_BRANCH)
-	docker tag $(DOCKER_IMG_NAME):$(GIT_BRANCH) $(DOCKER_TAG)
 	docker push $(DOCKER_TAG)
-	docker push $(DOCKER_TAG_BRANCH)
+	if [ -n "${GIT_BRANCH}" ]; then \
+		docker tag $(DOCKER_TAG) $(DOCKER_TAG_BRANCH) ;\
+		docker push $(DOCKER_TAG_BRANCH) ;\
+	fi
+
+docker-list: ## Print name of docker container image
+	@echo "images:"
+	@echo "  $(DOCKER_IMG_NAME):"
+	@echo "    name: '$(DOCKER_TAG)'"
+	@echo "    version: '$(VERSION)'"
+	@echo "    gitTagPrefix: 'v'"
+	@echo "    buildTarget: 'docker-build'"
 
 chart-clean:
 	@# Help: Cleans the build directory of the helm chart
 	rm -rf ${CHART_BUILD_DIR}
 
-helm-build: chart-clean
+helm-build: chart-clean apply-version
 	@# Help: Builds the helm chart
 	helm package \
 		--app-version=${CHART_APP_VERSION} \
@@ -132,6 +151,13 @@ helm-build: chart-clean
 		--dependency-update \
 		--destination ${CHART_BUILD_DIR} \
 		${CHART_PATH}
+
+helm-list: ## List helm charts, tag format, and versions in YAML format
+	@echo "charts:" ;\
+  echo "  $(CHART_NAME):" ;\
+  echo -n "    "; grep "^version" "${CHART_PATH}/Chart.yaml"  ;\
+  echo "    gitTagPrefix: 'v'" ;\
+  echo "    outDir: '${CHART_BUILD_DIR}'" ;\
 
 kind-load:
 	@# Help: Load various images into the kind cluster

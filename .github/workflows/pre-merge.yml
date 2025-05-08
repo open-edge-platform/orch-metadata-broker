@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: (C) 2025 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
 name: Pre-Merge CI Pipeline
 
 on:
@@ -23,6 +26,6 @@ jobs:
       run_scan_containers: true
       run_artifact: false
       run_helm_build: true
-      run_reuse_check: false # TODO enable me
+      run_reuse_check: true
     secrets: inherit
 
