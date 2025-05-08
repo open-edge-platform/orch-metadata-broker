@@ -12,7 +12,7 @@ on:
 
 jobs:
   pre-merge-pipeline:
-    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@main
+    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@0.1.10
     with:
       bootstrap_tools: "go,gotools,golang-lint,helm,yq,buf,opa"
       run_security_scans: true
@@ -28,4 +28,3 @@ jobs:
       run_helm_build: true
       run_reuse_check: true
     secrets: inherit
-
