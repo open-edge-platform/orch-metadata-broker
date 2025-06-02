@@ -10,12 +10,17 @@ on:
       - release-*
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   post-merge-pipeline:
-    uses: open-edge-platform/orch-ci/.github/workflows/post-merge.yml@main
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
+    uses: open-edge-platform/orch-ci/.github/workflows/post-merge.yml@f341738d975c38b2b91f25d405baeb2d39bf2ddb  # 0.1.14
     with:
       bootstrap_tools: "go,gotools,golang-lint,helm,yq,buf,opa"
-      run_security_scans: true
       run_version_check: true
       run_dep_version_check: false
       run_build: true
@@ -25,4 +30,9 @@ jobs:
       run_helm_push: true
       run_version_tag: true
       run_artifact: false
-    secrets: inherit
+    secrets:
+      SYS_ORCH_GITHUB: ${{ secrets.SYS_ORCH_GITHUB }}
+      COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      NO_AUTH_ECR_PUSH_USERNAME: ${{ secrets.NO_AUTH_ECR_PUSH_USERNAME }}
+      NO_AUTH_ECR_PUSH_PASSWD: ${{ secrets.NO_AUTH_ECR_PUSH_PASSWD }}
