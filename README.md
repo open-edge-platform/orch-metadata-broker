@@ -1,5 +1,8 @@
 # Orch Metadata Broker Service
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/open-edge-platform/orch-metadata-broker/badge)](https://scorecard.dev/viewer/?uri=github.com/open-edge-platform/orch-metadata-broker)
+
 ## Overview
 
 This service is responsible for storing and retrieving metadata, enabling the UI to populate dropdowns with previously entered metadata keys and values. The metadata is stored in a separate file for each project in favor of security.
@@ -21,6 +24,7 @@ To develop in the Metadata Broker Service, the following development prerequisit
 - A running deployment of the [Edge Management Framework](https://github.com/open-edge-platform/edge-manageability-framework?tab=readme-ov-file)
 
 To build and test Metadata Broker, you can use the following commands:
+
 ```shell
 # Build the project
 make build
@@ -80,6 +84,7 @@ Delete all metadata in a project:
 ```shell
 curl -X DELETE http://localhost:9988/metadata.orchestrator.apis/v1/project/$PRJ
 ```
+
 > Note: This will only delete the project from the Metadata Broker service's file storage. The actual project will still exist in the [Edge Management Framework](https://github.com/open-edge-platform/edge-manageability-framework?tab=readme-ov-file) system.
 
 ## Contribute
