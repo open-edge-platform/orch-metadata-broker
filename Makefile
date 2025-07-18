@@ -15,8 +15,8 @@ DOCKER_REPOSITORY       ?= edge-orch
 DOCKER_SUB_REPOSITORY   ?= orch-ui
 GIT_BRANCH 	        ?= $(shell git branch --show-current | sed -r 's/[\/]+/-/g')
 DOCKER_IMG_NAME         := $(PROJECT_NAME)
-DOCKER_TAG              := $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME):$(VERSION)
-DOCKER_TAG_BRANCH       := $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME):$(GIT_BRANCH)
+DOCKER_TAG              := $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY)/$(DOCKER_IMG_NAME):$(VERSION)
+DOCKER_TAG_BRANCH       := $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY)/$(DOCKER_IMG_NAME):$(GIT_BRANCH)
 HELM_REGISTRY           ?=
 
 ## CHART_PREFIX is the prefix of the helm chart
@@ -124,7 +124,8 @@ docker-build: vendor generate
 
 docker-push:
 	@# Help: Pushes the docker image
-	aws ecr create-repository --region us-west-2 --repository-name  $(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME) || true
+# 	aws ecr create-repository --region us-west-2 --repository-name  $(DOCKER_REPOSITORY)/$(DOCKER_SUB_REPOSITORY)/$(DOCKER_IMG_NAME) || true
+	aws ecr create-repository --region us-west-2 --repository-name edge-orch/$(DOCKER_REPOSITORY)/$(DOCKER_IMG_NAME) || true
 	docker push $(DOCKER_TAG)
 	if [ -n "${GIT_BRANCH}" ]; then \
 		docker tag $(DOCKER_TAG) $(DOCKER_TAG_BRANCH) ;\
