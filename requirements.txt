@@ -11,7 +11,7 @@ pathable==0.4.3
 pyrsistent==0.19.3
 PyYAML==6.0.1
 referencing==0.30.2
-requests==2.32.2
+requests==2.32.4
 rfc3339-validator==0.1.4
 six==1.16.0
-urllib3==2.2.2
+urllib3==2.5.0
