@@ -19,6 +19,8 @@ internal format persisted to a local Postgres DB.
 
 ## Helm Install
 
+> **IMPORTANT:** Before deploying, edit `deployments/keycloak-dev/values.yaml` and set a secure value for `adminPassword`. The placeholder `<REPLACE_WITH_PASSWORD>` occurs in several locations within the values file (admin and test users) and must be replaced everywhere with your chosen password.
+
 Add the Bitnami repo to `helm`, if you don't already have it:
 
 ```shell
@@ -52,7 +54,8 @@ kubectl -n orch-platform port-forward service/keycloak 8090:80
 ## Administration
 
 The Keycloak Admin console can be reached at `http://localhost`.
-Credentials: `admin/ChangeMeOn1stLogin!`
+
+The `admin` password will be the value you set in `deployments/keycloak-dev/values.yaml`.
 
 ## Users
 
