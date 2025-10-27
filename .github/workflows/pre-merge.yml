@@ -16,7 +16,7 @@ jobs:
   pre-merge-pipeline:
     permissions:
       contents: read
-    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@f341738d975c38b2b91f25d405baeb2d39bf2ddb  # 0.1.14
+    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@d475e84f8b0b7bff118f0e8f56712390ef8d2828  # 0.1.26
     with:
       bootstrap_tools: "go,gotools,golang-lint,helm,yq,buf,opa"
       run_security_scans: true
@@ -28,7 +28,6 @@ jobs:
       run_validate_clean_folder: false
       run_docker_build: true
       run_docker_push: true
-      run_scan_containers: true
       run_artifact: false
       run_helm_build: true
       run_helm_push: true
