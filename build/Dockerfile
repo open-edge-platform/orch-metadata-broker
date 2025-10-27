@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: (C) 2025 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-FROM golang:1.23.8 as BUILD
+FROM golang:1.24.6 as BUILD
 
 WORKDIR /workspace
 

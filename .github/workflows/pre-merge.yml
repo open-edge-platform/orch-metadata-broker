@@ -31,6 +31,7 @@ jobs:
       run_scan_containers: true
       run_artifact: false
       run_helm_build: true
+      run_helm_push: true
       run_reuse_check: true
     secrets:
       NO_AUTH_ECR_PUSH_USERNAME: ${{ secrets.NO_AUTH_ECR_PUSH_USERNAME }}
