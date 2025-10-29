@@ -19,7 +19,7 @@ require (
 	github.com/open-edge-platform/orch-library/go v0.6.1
 	github.com/open-edge-platform/orch-library/go/dazl v0.5.4
 	github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4
-	github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.1.5
+	github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.2.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/mock v0.6.0
 	golang.org/x/net v0.43.0
