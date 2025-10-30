@@ -12,7 +12,7 @@ auth:
   adminUser: admin
   ## @param auth.adminPassword Keycloak administrator password for the new user
   ##
-  adminPassword: ChangeMeOn1stLogin!
+  adminPassword: <REPLACE_WITH_PASSWORD>
 
 ## ref: https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
 ## @param postgresql.enabled Switch to enable or disable the PostgreSQL helm chart
@@ -1171,7 +1171,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master", "lp-admin-role" ],
@@ -1188,7 +1188,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1205,7 +1205,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1222,7 +1222,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1239,7 +1239,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master", "lp-admin-role", "lp-read-write-role" ],
@@ -1256,7 +1256,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1273,7 +1273,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master", "lp-admin-role", "lp-read-write-role", "lp-read-only-role" ],
@@ -1297,7 +1297,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1326,7 +1326,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
@@ -1355,7 +1355,7 @@ keycloakConfigCli:
             "credentials": [
               {
                 "type": "password",
-                "value": "ChangeMeOn1stLogin!"
+                "value": "<REPLACE_WITH_PASSWORD>"
               }
             ],
             "realmRoles" : [ "default-roles-master" ],
