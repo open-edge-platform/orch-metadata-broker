@@ -16,7 +16,7 @@ jobs:
   pre-merge-pipeline:
     permissions:
       contents: read
-    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@2a38adefe59ba668cb193e54ae55b4bd2a5b6775
+    uses: open-edge-platform/orch-ci/.github/workflows/pre-merge.yml@24fcbae75de2591cd2794039574030faedfc08bb
     with:
       bootstrap_tools: "go,gotools,golang-lint,helm,yq,buf,opa"
       run_security_scans: true
