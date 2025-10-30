@@ -334,8 +334,8 @@ github.com/open-edge-platform/orch-library/go/dazl v0.5.4 h1:Rx/bSAZiLjEEBjUiJEz
 github.com/open-edge-platform/orch-library/go/dazl v0.5.4/go.mod h1:UiO3TOEqEuRT81OtgPsqR9LpB1887i5nk2TelhJksMY=
 github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4 h1:kDfNlrnTY+RLKEwhe6UWJJO1lqYCvMC0OTEOv9GVPPA=
 github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4/go.mod h1:PRtSHUA9ZBm0yQOoErx2bZyOT1EVS2gPOy4ByUlaANM=
-github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.2.0 h1:vJFShs8dXooCwQWePAE9aCOYLjngQNmSZKb7iBjj7jk=
-github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.2.0/go.mod h1:dshRhRSIazosRzSsjP0uddwKbQuq6ObGlDoBeBHY164=
+github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.2.2 h1:dcG+hO1F94nvF3BWYqfB6/wG8ERZIwJAlSCWW5vCS3w=
+github.com/open-edge-platform/orch-utils/tenancy-datamodel v1.2.2/go.mod h1:PEbcIDN/cTOpRWeIxKvnVqS3DRuwHSA1LyNgMQOfnGY=
 github.com/opentracing/opentracing-go v1.1.0/go.mod h1:UkNAQd3GIcIGf0SeVgPpRdFStlNbqXla1AfSYxPUl2o=
 github.com/pelletier/go-toml/v2 v2.2.4 h1:mye9XuhQ6gvn5h28+VilKrrPoQVanw5PMw/TB0t5Ec4=
 github.com/pelletier/go-toml/v2 v2.2.4/go.mod h1:2gIqNv+qfxSVS7cM2xJQKtLSTLUE9V8t9Stt+h56mCY=
