@@ -22,10 +22,11 @@ import (
 	"google.golang.org/grpc/test/bufconn"
 	"google.golang.org/protobuf/types/known/emptypb"
 
+	"context"
+
 	"github.com/open-edge-platform/orch-library/go/pkg/openpolicyagent"
 	"github.com/stretchr/testify/suite"
 	gomock "go.uber.org/mock/gomock"
-	"context"
 	"google.golang.org/grpc"
 )
 
@@ -124,7 +125,7 @@ func createServerConnection(t *testing.T, opaClient openpolicyagent.ClientWithRe
 	s, err := newTestService(opaClient)
 	assert.NoError(t, err)
 	assert.NotNil(t, s)
-	server := grpc.NewServer()
+	server := grpc.NewServer(grpc.Creds(insecure.NewCredentials()))
 	s.Register(server)
 
 	go func() {
