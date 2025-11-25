@@ -6,6 +6,7 @@
 package grpc
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os"
@@ -25,7 +26,6 @@ import (
 	"github.com/open-edge-platform/orch-library/go/pkg/openpolicyagent"
 	"github.com/stretchr/testify/suite"
 	gomock "go.uber.org/mock/gomock"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
@@ -124,6 +124,8 @@ func createServerConnection(t *testing.T, opaClient openpolicyagent.ClientWithRe
 	s, err := newTestService(opaClient)
 	assert.NoError(t, err)
 	assert.NotNil(t, s)
+	// Test server using in-memory bufconn, no network communication, TLS not needed
+	// nosemgrep: go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection
 	server := grpc.NewServer()
 	s.Register(server)
 
