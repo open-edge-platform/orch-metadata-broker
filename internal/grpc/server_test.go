@@ -124,6 +124,8 @@ func createServerConnection(t *testing.T, opaClient openpolicyagent.ClientWithRe
 	s, err := newTestService(opaClient)
 	assert.NoError(t, err)
 	assert.NotNil(t, s)
+	// Test server using in-memory bufconn, no network communication, TLS not needed
+	// nosemgrep: go.grpc.security.grpc-server-insecure-connection.grpc-server-insecure-connection
 	server := grpc.NewServer()
 	s.Register(server)
 
