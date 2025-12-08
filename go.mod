@@ -7,7 +7,7 @@ require (
 	entgo.io/ent v0.14.5
 	github.com/atomix/dazl v1.1.4
 	github.com/deepmap/oapi-codegen v1.16.3
-	github.com/envoyproxy/protoc-gen-validate v1.2.1
+	github.com/envoyproxy/protoc-gen-validate v1.3.0
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-contrib/secure v1.1.2
 	github.com/gin-gonic/gin v1.11.0
@@ -24,7 +24,7 @@ require (
 	go.uber.org/mock v0.6.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20251022142026-3a174f9686a8
 	google.golang.org/grpc v1.77.0
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.5.1
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.6.0
 	google.golang.org/protobuf v1.36.10
 	k8s.io/apimachinery v0.34.2
 	k8s.io/client-go v0.34.2
