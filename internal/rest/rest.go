@@ -1,7 +1,7 @@
 /*
 * SPDX-FileCopyrightText: (C) 2023 Intel Corporation
 * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 
 package rest
 
@@ -17,7 +17,6 @@ import (
 	_ "github.com/open-edge-platform/orch-library/go/dazl/zap"
 	ginlogger "github.com/open-edge-platform/orch-library/go/pkg/logging/gin"
 	ginmiddleware "github.com/open-edge-platform/orch-library/go/pkg/middleware/gin"
-	ginutils "github.com/open-edge-platform/orch-library/go/pkg/middleware/gin"
 	openapiutils "github.com/open-edge-platform/orch-library/go/pkg/openapi"
 	pb "github.com/open-edge-platform/orch-metadata-broker/pkg/api/v1"
 
@@ -62,7 +61,7 @@ func NewServer(restPort int, grpcPort int, basePath string, allowedCorsOrigins s
 			md := metadata.Pairs("auth", authHeader, "client", uaHeader, ActiveProjectID, projectIDHeader)
 			return md
 		}),
-		runtime.WithRoutingErrorHandler(ginutils.HandleRoutingError),
+		runtime.WithRoutingErrorHandler(ginmiddleware.HandleRoutingError),
 	)
 
 	// setting up a dail up for gRPC service by specifying endpoint/target url

@@ -1,7 +1,7 @@
 /*
 * SPDX-FileCopyrightText: (C) 2023 Intel Corporation
 * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 
 package models
 
@@ -125,7 +125,7 @@ func (s *MetadataStoreV1) CreateOrUpdate(k *pb.Metadata) error {
 	lock.Lock()
 	defer lock.Unlock()
 
-	s.Metadata.createOrUpdate(k)
+	s.createOrUpdate(k)
 
 	return nil
 }
@@ -134,7 +134,7 @@ func (s *MetadataStoreV1) Delete(k *pb.Metadata) error {
 	lock.Lock()
 	defer lock.Unlock()
 
-	return s.Metadata.delete(k)
+	return s.delete(k)
 }
 
 // MetadataStoreV1 Supports Project isolation.
@@ -159,13 +159,13 @@ func loadFile(fileName string) ([]byte, error) {
 		}
 	}
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	stats, statsErr := file.Stat()
 	if statsErr != nil {
 		return nil, statsErr
 	}
 
-	var size int64 = stats.Size()
+	size := stats.Size()
 	bytes := make([]byte, size)
 
 	bufr := bufio.NewReader(file)

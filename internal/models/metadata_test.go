@@ -1,7 +1,7 @@
 /*
 * SPDX-FileCopyrightText: (C) 2023 Intel Corporation
 * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 
 package models
 
@@ -54,7 +54,7 @@ func TestLoadMetadataV0(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			os.Remove(persistFile)
+			_ = os.Remove(persistFile)
 			if tt.args.createFile {
 				err := os.WriteFile(persistFile, tt.args.setupContent, 0644)
 				assert.NoError(t, err)
@@ -201,7 +201,7 @@ func TestLoadMetadataV1(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			filename := getFilename(persistFolder, projectId)
-			os.Remove(filename)
+			_ = os.Remove(filename)
 			if tt.args.createFile {
 				err := os.WriteFile(filename, tt.args.setupContent, 0644)
 				assert.NoError(t, err)
@@ -258,7 +258,7 @@ func Test_loadFile(t *testing.T) {
 			assert.Equalf(t, tt.want, got, "loadFile(%v)", tt.args.fileName)
 
 			t.Cleanup(func() {
-				os.Remove(tt.args.fileName)
+				_ = os.Remove(tt.args.fileName)
 			})
 		})
 	}

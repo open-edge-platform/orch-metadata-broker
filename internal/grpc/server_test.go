@@ -65,7 +65,7 @@ func (s *MetadataServiceTestSuite) SetupTest() {
 	_ = os.Remove(filename)
 	file, err := os.Create(filename)
 	s.NoError(err)
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	err = models.SaveMetadataV1(&models.MetadataStoreV1{
 		VersionedStore: models.VersionedStore{Version: "v1"},
