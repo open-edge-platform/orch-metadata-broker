@@ -211,6 +211,10 @@ lint: lint-go
 	@# Help: Runs lint stage
 
 lint-go:
+	@if golangci-lint version 2>/dev/null | grep -q "go1.25"; then \
+		echo "Upgrading golangci-lint (built with Go < 1.26)..."; \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/HEAD/install.sh | sh -s -- -b $$(go env GOPATH)/bin v2.11.4; \
+	fi
 	golangci-lint run --timeout 5m
 
 apply-version:
