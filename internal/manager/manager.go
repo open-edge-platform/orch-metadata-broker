@@ -15,6 +15,7 @@ import (
 	"github.com/atomix/dazl"
 	"github.com/open-edge-platform/orch-library/go/pkg/northbound"
 	"github.com/open-edge-platform/orch-library/go/pkg/openpolicyagent"
+	"github.com/open-edge-platform/orch-library/go/pkg/tenancy"
 	"github.com/open-edge-platform/orch-metadata-broker/internal/grpc"
 	"github.com/open-edge-platform/orch-metadata-broker/internal/impl"
 	"github.com/open-edge-platform/orch-metadata-broker/internal/rest"
@@ -80,14 +81,34 @@ func (m *Manager) Start() error {
 		}
 	}()
 
-	log.Info("Subscribing to Nexus")
-
-	nexusHook := NewNexusHook()
-	err = nexusHook.Subscribe()
-
-	if err != nil {
-		log.Errorf("Unable to subscribe to Nexus hook %v", err)
+	// Start tenancy poller.
+	tenantManagerURL := os.Getenv("TENANT_MANAGER_URL")
+	if tenantManagerURL == "" {
+		tenantManagerURL = "http://tenant-manager.orch-iam:8080"
 	}
+
+	handler := &tenancyHandler{}
+	poller := tenancy.NewPoller(tenantManagerURL, "metadata-broker", handler,
+		func(cfg *tenancy.PollerConfig) {
+			cfg.OnError = func(err error, msg string) {
+				log.Errorf("%s: %v", msg, err)
+			}
+		},
+	)
+
+	pollerCtx, pollerCancel := context.WithCancel(context.Background())
+	go func() {
+		<-m.doneCh
+		pollerCancel()
+	}()
+
+	go func() {
+		if err := poller.Run(pollerCtx); err != nil && pollerCtx.Err() == nil {
+			log.Errorf("tenancy poller stopped with error: %v", err)
+		}
+	}()
+
+	log.Info("Tenancy poller started for metadata-broker")
 
 	m.wg.Wait()
 	return nil
