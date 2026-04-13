@@ -6,10 +6,10 @@
 package models
 
 import (
-	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"strings"
@@ -168,12 +168,11 @@ func loadFile(fileName string) ([]byte, error) {
 	size := stats.Size()
 	bytes := make([]byte, size)
 
-	bufr := bufio.NewReader(file)
-	_, err = bufr.Read(bytes)
-	if err != nil {
+	_, err = io.ReadFull(file, bytes)
+	if err != nil && err != io.EOF {
 		return nil, err
 	}
-	return bytes, err
+	return bytes, nil
 }
 
 // LoadMetadataV0 Loads data from a v0 file
