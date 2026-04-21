@@ -151,8 +151,8 @@ github.com/golang/protobuf v1.5.4 h1:i7eJL8qZTpSEXOPTxNKhASYpMn+8e5Q6AdndVa1dWek
 github.com/golang/protobuf v1.5.4/go.mod h1:lnTiLA8Wa4RWRcIUkrtSVa5nRhsEGBg48fD6rSs7xps=
 github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
 github.com/golang/snappy v0.0.4/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
-github.com/gomarkdown/markdown v0.0.0-20240729212818-a2a9c4f76ef5 h1:8QWUW69MXlNdZXnDnD9vEQ1BL8/mm1FTiSesKKHYivk=
-github.com/gomarkdown/markdown v0.0.0-20240729212818-a2a9c4f76ef5/go.mod h1:JDGcbDT52eL4fju3sZ4TeHGsQwhG9nbDV21aMyhwPoA=
+github.com/gomarkdown/markdown v0.0.0-20260411013819-759bbc3e3207 h1:p7t34F7K4OCRQblcDhNJnP46Uaarz3z2cLcvOZYxWn8=
+github.com/gomarkdown/markdown v0.0.0-20260411013819-759bbc3e3207/go.mod h1:JDGcbDT52eL4fju3sZ4TeHGsQwhG9nbDV21aMyhwPoA=
 github.com/google/gnostic v0.7.1 h1:t5Kc7j/8kYr8t2u11rykRrPPovlEMG4+xdc/SpekATs=
 github.com/google/gnostic v0.7.1/go.mod h1:KSw6sxnxEBFM8jLPfJd46xZP+yQcfE8XkiqfZx5zR28=
 github.com/google/gnostic-models v0.7.0 h1:qwTtogB15McXDaNqTZdzPJRHvaVJlAl+HVQnLmJEJxo=
@@ -306,6 +306,8 @@ github.com/oasdiff/yaml3 v0.0.0-20250309153720-d2182401db90 h1:bQx3WeLcUWy+RletI
 github.com/oasdiff/yaml3 v0.0.0-20250309153720-d2182401db90/go.mod h1:y5+oSEHCPT/DGrS++Wc/479ERge0zTFxaF8PbGKcg2o=
 github.com/olekukonko/tablewriter v0.0.5 h1:P2Ga83D34wi1o9J6Wh1mRuqd4mF/x/lgBS7N7AbDhec=
 github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
+github.com/open-edge-platform/orch-library/go v0.6.4-0.20260420133059-5326600099ac h1:Z/+e48d8IOhk/f/TQw0BW/A+vKghRtyu3Il8CTUBsM0=
+github.com/open-edge-platform/orch-library/go v0.6.4-0.20260420133059-5326600099ac/go.mod h1:4JmwDbbry87tUoQf2VQUUe6ecZA9uOnQU0nzScBOxjU=
 github.com/open-edge-platform/orch-library/go/dazl v0.5.4 h1:Rx/bSAZiLjEEBjUiJEzBvT0fQv5huT5FQ2Ke3IMUhiE=
 github.com/open-edge-platform/orch-library/go/dazl v0.5.4/go.mod h1:UiO3TOEqEuRT81OtgPsqR9LpB1887i5nk2TelhJksMY=
 github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4 h1:kDfNlrnTY+RLKEwhe6UWJJO1lqYCvMC0OTEOv9GVPPA=

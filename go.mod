@@ -2,8 +2,6 @@ module github.com/open-edge-platform/orch-metadata-broker
 
 go 1.26.1
 
-replace github.com/open-edge-platform/orch-library/go => ../orch-library/go
-
 require (
 	entgo.io/contrib v0.7.0
 	entgo.io/ent v0.14.5
@@ -18,7 +16,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.28.0
 	github.com/labstack/gommon v0.4.2
 	github.com/lib/pq v1.11.2
-	github.com/open-edge-platform/orch-library/go v0.6.3
+	github.com/open-edge-platform/orch-library/go v0.6.4-0.20260420133059-5326600099ac
 	github.com/open-edge-platform/orch-library/go/dazl v0.5.4
 	github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4
 	github.com/stretchr/testify v1.11.1
@@ -67,7 +65,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/gomarkdown/markdown v0.0.0-20240729212818-a2a9c4f76ef5 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20260411013819-759bbc3e3207 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
