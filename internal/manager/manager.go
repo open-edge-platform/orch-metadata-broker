@@ -86,6 +86,7 @@ func (m *Manager) Start() error {
 	if err = tenancyHook.Subscribe(); err != nil {
 		log.Errorf("Unable to subscribe to Tenant Manager events: %v", err)
 	}
+	defer tenancyHook.Unsubscribe()
 
 	m.wg.Wait()
 	return nil

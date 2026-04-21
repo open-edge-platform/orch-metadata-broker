@@ -2,7 +2,7 @@ module github.com/open-edge-platform/orch-metadata-broker
 
 go 1.26.1
 
-replace github.com/open-edge-platform/orch-library/go => /home/seu/orch-library/go
+replace github.com/open-edge-platform/orch-library/go => ../orch-library/go
 
 require (
 	entgo.io/contrib v0.7.0
