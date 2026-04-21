@@ -80,13 +80,11 @@ func (m *Manager) Start() error {
 		}
 	}()
 
-	log.Info("Subscribing to Nexus")
+	log.Info("Subscribing to Tenant Manager")
 
-	nexusHook := NewNexusHook()
-	err = nexusHook.Subscribe()
-
-	if err != nil {
-		log.Errorf("Unable to subscribe to Nexus hook %v", err)
+	tenancyHook := NewTenancyHook()
+	if err = tenancyHook.Subscribe(); err != nil {
+		log.Errorf("Unable to subscribe to Tenant Manager events: %v", err)
 	}
 
 	m.wg.Wait()

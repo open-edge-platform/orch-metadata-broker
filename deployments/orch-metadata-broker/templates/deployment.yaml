@@ -77,6 +77,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: TENANT_MANAGER_URL
+              value: {{ .Values.tenantManagerURL | quote }}
             - name: OIDC_SERVER_URL
               value: {{ .Values.openidc.issuer }}
             - name: OIDC_SERVER_URL_EXTERNAL
