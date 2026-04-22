@@ -48,14 +48,19 @@ func isHeaderAllowed(s string) (string, bool) {
 
 const ActiveProjectID = "ActiveProjectID"
 
+const (
+	tenantManagerURLEnvVar    = "TENANT_MANAGER_URL"
+	defaultTenantManagerURL   = "http://tenancy-manager.orch-iam:8080"
+)
+
 func NewServer(restPort int, grpcPort int, basePath string, allowedCorsOrigins string, openapiSpecFile string) *http.Server {
-	return newServerWithTenantURL(restPort, grpcPort, basePath, allowedCorsOrigins, openapiSpecFile, os.Getenv("TENANT_MANAGER_URL"))
+	return newServerWithTenantURL(restPort, grpcPort, basePath, allowedCorsOrigins, openapiSpecFile, os.Getenv(tenantManagerURLEnvVar))
 }
 
 // newServerWithTenantURL is the internal constructor — testable via dependency injection.
 func newServerWithTenantURL(restPort int, grpcPort int, basePath string, allowedCorsOrigins string, openapiSpecFile string, tenantManagerURL string) *http.Server {
 	if tenantManagerURL == "" {
-		tenantManagerURL = "http://tenancy-manager.orch-iam:8080"
+		tenantManagerURL = defaultTenantManagerURL
 	}
 	gin.DefaultWriter = ginlogger.NewWriter(log)
 
