@@ -7,20 +7,23 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/open-edge-platform/orch-library/go/pkg/tenancy"
 	"github.com/open-edge-platform/orch-metadata-broker/internal/impl"
 )
 
 const (
-	appName                  = "metadata-broker"
-	defaultTenantManagerURL  = "http://tenancy-manager.orch-iam:8080"
+	appName                 = "metadata-broker"
+	tenantManagerURLEnvVar  = "TENANT_MANAGER_URL"
+	defaultTenantManagerURL = "http://tenancy-manager.orch-iam:8080"
 )
 
 // TenancyHook replaces the former Nexus-based project lifecycle listener.
 // It consumes project events from the Tenant Manager REST API via the shared
 // orch-library tenancy poller.
 type TenancyHook struct {
+	mu     sync.Mutex
 	cancel context.CancelFunc
 }
 
@@ -30,8 +33,16 @@ func NewTenancyHook() *TenancyHook {
 }
 
 // Subscribe starts the tenancy poller in a background goroutine.
+// If already subscribed, it returns an error.
 func (h *TenancyHook) Subscribe() error {
-	tenantManagerURL := os.Getenv("TENANT_MANAGER_URL")
+	h.mu.Lock()
+	defer h.mu.Unlock()
+
+	if h.cancel != nil {
+		return fmt.Errorf("tenancy hook already subscribed")
+	}
+
+	tenantManagerURL := os.Getenv(tenantManagerURLEnvVar)
 	if tenantManagerURL == "" {
 		tenantManagerURL = defaultTenantManagerURL
 	}
@@ -63,8 +74,12 @@ func (h *TenancyHook) Subscribe() error {
 
 // Unsubscribe cancels the background poller.
 func (h *TenancyHook) Unsubscribe() {
+	h.mu.Lock()
+	defer h.mu.Unlock()
+
 	if h.cancel != nil {
 		h.cancel()
+		h.cancel = nil
 	}
 }
 

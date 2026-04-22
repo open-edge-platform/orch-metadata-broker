@@ -121,3 +121,16 @@ func TestTenancyHook_UnsubscribeWithoutSubscribe(t *testing.T) {
 	h := NewTenancyHook()
 	assert.NotPanics(t, func() { h.Unsubscribe() })
 }
+
+// TestTenancyHook_DoubleSubscribeReturnsError verifies that a second Subscribe call
+// before Unsubscribe returns an error instead of leaking a goroutine.
+func TestTenancyHook_DoubleSubscribeReturnsError(t *testing.T) {
+	t.Setenv("TENANT_MANAGER_URL", "http://127.0.0.1:19999")
+
+	h := NewTenancyHook()
+	require.NoError(t, h.Subscribe())
+	defer h.Unsubscribe()
+
+	err := h.Subscribe()
+	assert.ErrorContains(t, err, "already subscribed")
+}

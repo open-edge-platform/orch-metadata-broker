@@ -29,18 +29,16 @@ import (
 	"google.golang.org/grpc"
 )
 
-const testFile = "/tmp/testData.json"
-const persistFolder = "/tmp"
-
 var projectId = "testProject"
 
 // Suite of northbound tests
 type MetadataServiceTestSuite struct {
 	suite.Suite
 
-	startTime time.Time
-	ctx       context.Context
-	cancel    context.CancelFunc
+	startTime     time.Time
+	ctx           context.Context
+	cancel        context.CancelFunc
+	persistFolder string // unique per suite run to avoid races with other test packages
 
 	conn   *grpc.ClientConn
 	client v1.MetadataServiceClient
@@ -48,10 +46,15 @@ type MetadataServiceTestSuite struct {
 }
 
 func (s *MetadataServiceTestSuite) SetupSuite() {
-
+	var err error
+	s.persistFolder, err = os.MkdirTemp("", "grpc-metadata-test-*")
+	s.Require().NoError(err)
 }
 
 func (s *MetadataServiceTestSuite) TearDownSuite() {
+	if s.persistFolder != "" {
+		_ = os.RemoveAll(s.persistFolder)
+	}
 }
 
 func (s *MetadataServiceTestSuite) SetupTest() {
@@ -61,7 +64,7 @@ func (s *MetadataServiceTestSuite) SetupTest() {
 	s.ctx = metadata.NewOutgoingContext(s.ctx, md)
 	s.setupForAuth(true)
 
-	filename := path.Join(persistFolder, fmt.Sprintf("metadata-%s.json", projectId))
+	filename := path.Join(s.persistFolder, fmt.Sprintf("metadata-%s.json", projectId))
 	_ = os.Remove(filename)
 	file, err := os.Create(filename)
 	s.NoError(err)
@@ -70,10 +73,10 @@ func (s *MetadataServiceTestSuite) SetupTest() {
 	err = models.SaveMetadataV1(&models.MetadataStoreV1{
 		VersionedStore: models.VersionedStore{Version: "v1"},
 		Metadata:       models.Metadata{},
-	}, persistFolder, projectId)
+	}, s.persistFolder, projectId)
 	s.NoError(err)
 
-	s.NoError(impl.Init(testFile, persistFolder))
+	s.NoError(impl.Init("", s.persistFolder))
 }
 
 func (s *MetadataServiceTestSuite) setupForAuth(allowed bool) {

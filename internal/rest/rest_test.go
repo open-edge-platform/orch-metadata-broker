@@ -58,9 +58,9 @@ func TestNewServer_TestEndpoint(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 }
 
-// TestNewServer_DefaultTenantManagerURL verifies that an empty tenantManagerURL
+// TestNewServer_EmptyTenantManagerURL_SmokeTest verifies that an empty tenantManagerURL
 // is replaced with the default value (smoke-test the fallback branch).
-func TestNewServer_DefaultTenantManagerURL(t *testing.T) {
+func TestNewServer_EmptyTenantManagerURL_SmokeTest(t *testing.T) {
 	// Passing empty string should not panic and still produce a usable server.
 	srv := newServerWithTenantURL(19803, 19804, "/", "", specPath(t), "")
 	require.NotNil(t, srv)
@@ -72,9 +72,9 @@ func TestNewServer_Address(t *testing.T) {
 	assert.Equal(t, fmt.Sprintf(":%d", 19801), srv.Addr)
 }
 
-// TestNewServer_TenantManagerURLFromEnv verifies that NewServer reads TENANT_MANAGER_URL
+// TestNewServer_WithTenantManagerURLInEnv verifies that NewServer reads TENANT_MANAGER_URL
 // from the environment (ensuring the env-var path is wired correctly).
-func TestNewServer_TenantManagerURLFromEnv(t *testing.T) {
+func TestNewServer_WithTenantManagerURLInEnv(t *testing.T) {
 	t.Setenv("TENANT_MANAGER_URL", "http://custom-tenant-manager:9090")
 	// NewServer calls newServerWithTenantURL internally — just verify it doesn't panic
 	// or fatal when the env var is set correctly.
