@@ -8,6 +8,7 @@ package rest
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/secure"
@@ -17,6 +18,7 @@ import (
 	_ "github.com/open-edge-platform/orch-library/go/dazl/zap"
 	ginlogger "github.com/open-edge-platform/orch-library/go/pkg/logging/gin"
 	ginmiddleware "github.com/open-edge-platform/orch-library/go/pkg/middleware/gin"
+	"github.com/open-edge-platform/orch-library/go/pkg/middleware/projectcontext"
 	openapiutils "github.com/open-edge-platform/orch-library/go/pkg/openapi"
 	pb "github.com/open-edge-platform/orch-metadata-broker/pkg/api/v1"
 
@@ -46,7 +48,20 @@ func isHeaderAllowed(s string) (string, bool) {
 
 const ActiveProjectID = "ActiveProjectID"
 
+const (
+	tenantManagerURLEnvVar    = "TENANT_MANAGER_URL"
+	defaultTenantManagerURL   = "http://tenancy-manager.orch-iam:8080"
+)
+
 func NewServer(restPort int, grpcPort int, basePath string, allowedCorsOrigins string, openapiSpecFile string) *http.Server {
+	return newServerWithTenantURL(restPort, grpcPort, basePath, allowedCorsOrigins, openapiSpecFile, os.Getenv(tenantManagerURLEnvVar))
+}
+
+// newServerWithTenantURL is the internal constructor — testable via dependency injection.
+func newServerWithTenantURL(restPort int, grpcPort int, basePath string, allowedCorsOrigins string, openapiSpecFile string, tenantManagerURL string) *http.Server {
+	if tenantManagerURL == "" {
+		tenantManagerURL = defaultTenantManagerURL
+	}
 	gin.DefaultWriter = ginlogger.NewWriter(log)
 
 	// creating mux for gRPC gateway. This will multiplex or route request different gRPC service
@@ -108,7 +123,9 @@ func NewServer(restPort int, grpcPort int, basePath string, allowedCorsOrigins s
 		router.Use(cors.New(config))
 	}
 
-	router.Group(fmt.Sprintf("%smetadata.orchestrator.apis/v1/*{grpc_gateway}", basePath)).Match(allowedMethods, "", gin.WrapH(mux))
+	router.Group(fmt.Sprintf("%smetadata.orchestrator.apis/v1/*{grpc_gateway}", basePath)).Match(allowedMethods, "", gin.WrapH(
+		projectcontext.InjectActiveProjectID(tenantManagerURL, false)(mux),
+	))
 	router.GET("/test", func(c *gin.Context) {
 		c.String(http.StatusOK, "Ok")
 	})

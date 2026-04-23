@@ -40,7 +40,7 @@ spec:
       labels:
         {{- include "orch-metadata-broker.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: mdb-service-account
+      serviceAccountName: {{ include "orch-metadata-broker.serviceAccountName" . }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -77,6 +77,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: TENANT_MANAGER_URL
+              value: {{ .Values.tenantManagerURL | quote }}
             - name: OIDC_SERVER_URL
               value: {{ .Values.openidc.issuer }}
             - name: OIDC_SERVER_URL_EXTERNAL

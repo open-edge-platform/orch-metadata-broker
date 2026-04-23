@@ -55,8 +55,9 @@ logging:
     outputs:
       - stdout
 
+tenantManagerURL: "http://tenancy-manager.orch-iam:8080"
+
 openidc:
-  # the endpoint of a Keycloak Realm e.g. http://keycloak/realms/master
   issuer: ""
   # an external URL for the endpoint of a Keycloak Realm e.g.
   # https://keycloak.<some-cluster>.<root url>.com/realms/master
