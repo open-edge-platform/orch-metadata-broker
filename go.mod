@@ -13,10 +13,11 @@ require (
 	github.com/gin-gonic/gin v1.12.0
 	github.com/go-playground/assert/v2 v2.2.0
 	github.com/google/gnostic v0.7.1
+	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.28.0
 	github.com/labstack/gommon v0.4.2
 	github.com/lib/pq v1.11.2
-	github.com/open-edge-platform/orch-library/go v0.6.4-0.20260420133059-5326600099ac
+	github.com/open-edge-platform/orch-library/go v0.6.4-0.20260504141454-171fffc735ae
 	github.com/open-edge-platform/orch-library/go/dazl v0.5.4
 	github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4
 	github.com/stretchr/testify v1.11.1
@@ -68,7 +69,6 @@ require (
 	github.com/gomarkdown/markdown v0.0.0-20260411013819-759bbc3e3207 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
