@@ -1,6 +1,6 @@
 module github.com/open-edge-platform/orch-metadata-broker
 
-go 1.26.1
+go 1.26.3
 
 require (
 	entgo.io/contrib v0.7.0
