@@ -15,8 +15,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const persistFolder = "/tmp"
-
 const jsonmetadataV1 = `{"version":"v1","keys":[{"name":"foo","values":["bar","rab"]}]}`
 
 var testProject = "testProject"
@@ -46,6 +44,7 @@ func TestGetSystemMetadata(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			persistFolder := t.TempDir()
 
 			err := Init("", persistFolder)
 			assert.NoError(t, err)
@@ -84,6 +83,7 @@ func TestCreateOrUpdate(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			persistFolder := t.TempDir()
 
 			err := Init("", persistFolder)
 			assert.NoError(t, err)
@@ -136,6 +136,7 @@ func TestDelete(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			persistFolder := t.TempDir()
 
 			err := Init("", persistFolder)
 			assert.NoError(t, err)
@@ -189,6 +190,10 @@ func TestDeleteProject(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			persistFolder := t.TempDir()
+			err := Init("", persistFolder)
+			assert.NoError(t, err)
+
 			if tt.args.createProjectBeforeTest {
 				for _, k := range pbMetadata {
 					_, err := CreateOrUpdate(tt.args.projectId, k)
@@ -196,7 +201,7 @@ func TestDeleteProject(t *testing.T) {
 				}
 			}
 
-			err := DeleteProject(tt.args.projectId)
+			err = DeleteProject(tt.args.projectId)
 			if !tt.wantErr(t, err, fmt.Sprintf("DeleteProject(%v)", tt.args.projectId)) {
 				return
 			}
