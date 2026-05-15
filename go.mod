@@ -17,7 +17,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.28.0
 	github.com/labstack/gommon v0.4.2
 	github.com/lib/pq v1.11.2
-	github.com/open-edge-platform/orch-library/go v0.6.4-0.20260504141454-171fffc735ae
+	github.com/open-edge-platform/orch-library/go v0.6.4
 	github.com/open-edge-platform/orch-library/go/dazl v0.5.4
 	github.com/open-edge-platform/orch-library/go/dazl/zap v0.5.4
 	github.com/stretchr/testify v1.11.1
